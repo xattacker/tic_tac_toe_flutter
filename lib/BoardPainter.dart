@@ -8,7 +8,7 @@ class BoardPainter extends CustomPainter
   {
         Paint paint = new Paint();
         paint.color = Colors.grey;
-        paint.strokeCap = StrokeCap.round;
+        paint.strokeCap = StrokeCap.square;
         paint.style = PaintingStyle.fill;
         paint.strokeWidth = size.width/25;
 

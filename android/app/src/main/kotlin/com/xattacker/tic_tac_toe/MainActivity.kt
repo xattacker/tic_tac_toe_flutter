@@ -1,4 +1,4 @@
-package com.example.tic_tac_toe_flutter
+package com.xattacker.tic_tac_toe
 
 import io.flutter.embedding.android.FlutterActivity
 

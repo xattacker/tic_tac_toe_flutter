@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tic_tac_toe_flutter/ChessPainter.dart';
 
 import 'BoardPainter.dart';
 
 class TicTacToeWidget extends StatelessWidget {
   @override
-  Widget build (BuildContext ctxt) {
+  Widget build (BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text("TicTacToe"),
@@ -17,7 +18,7 @@ class TicTacToeWidget extends StatelessWidget {
                                alignment: Alignment.center,
                                children:  [
                                              CustomPaint( //<--- 使用绘制组件
-                                               size: const Size(double.infinity, double.infinity),
+                                               size: Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.width),
                                                painter: BoardPainter()
                                              ),
                                             GridView(
@@ -26,16 +27,44 @@ class TicTacToeWidget extends StatelessWidget {
                                                 childAspectRatio: 1.0 //宽高比为1时，子widget
                                             ),
                                             physics: NeverScrollableScrollPhysics(), // disable scrollable
+                                            shrinkWrap: true,
                                             children:<Widget>[
-                                              Icon(Icons.ac_unit),
-                                              Icon(Icons.airport_shuttle),
-                                              Icon(Icons.all_inclusive),
-                                              Icon(Icons.beach_access),
-                                              Icon(Icons.cake),
-                                              Icon(Icons.free_breakfast),
-                                              Icon(Icons.beach_access),
-                                              Icon(Icons.cake),
-                                              Icon(Icons.free_breakfast)
+                                              CustomPaint(
+                                                  size: Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.width),
+                                                  painter: ChessPainter(ChessType.none)
+                                              ),
+                                              CustomPaint(
+                                                  size: Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.width),
+                                                  painter: ChessPainter(ChessType.none)
+                                              ),
+                                              CustomPaint(
+                                                  size: Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.width),
+                                                  painter: ChessPainter(ChessType.none)
+                                              ),
+                                              CustomPaint(
+                                                  size: Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.width),
+                                                  painter: ChessPainter(ChessType.none)
+                                              ),
+                                              CustomPaint(
+                                                  size: Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.width),
+                                                  painter: ChessPainter(ChessType.none)
+                                              ),
+                                              CustomPaint(
+                                                  size: Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.width),
+                                                  painter: ChessPainter(ChessType.none)
+                                              ),
+                                              CustomPaint(
+                                                  size: Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.width),
+                                                  painter: ChessPainter(ChessType.none)
+                                              ),
+                                              CustomPaint(
+                                                  size: Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.width),
+                                                  painter: ChessPainter(ChessType.circle)
+                                              ),
+                                              CustomPaint(
+                                                  size: Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.width),
+                                                  painter: ChessPainter(ChessType.fork)
+                                              )
                                             ]
                                           )]
                               )

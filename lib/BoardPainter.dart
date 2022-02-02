@@ -7,7 +7,7 @@ class BoardPainter extends CustomPainter
   void paint(Canvas canvas, Size size)
   {
         Paint paint = new Paint();
-        paint.color = Colors.orangeAccent;
+        paint.color = Colors.grey;
         paint.strokeCap = StrokeCap.round;
         paint.style = PaintingStyle.fill;
         paint.strokeWidth = size.width/25;
@@ -19,8 +19,6 @@ class BoardPainter extends CustomPainter
            canvas.drawLine(Offset(width* i, padding), Offset(width* i, size.width - padding), paint);
            canvas.drawLine(Offset(padding, width * i), Offset(size.width - padding, width * i), paint);
         }
-
-       //canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height), paint);
   }
 
   @override

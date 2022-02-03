@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tic_tac_toe_flutter/ChessPainter.dart';
 
 import 'BoardPainter.dart';
+import 'ChessWidget.dart';
 
 class TicTacToeWidget extends StatelessWidget {
   @override
@@ -29,42 +30,17 @@ class TicTacToeWidget extends StatelessWidget {
                                             physics: NeverScrollableScrollPhysics(), // disable scrollable
                                             shrinkWrap: true,
                                             children:<Widget>[
-                                              CustomPaint(
-                                                  size: Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.width),
-                                                  painter: ChessPainter(ChessType.none)
-                                              ),
-                                              CustomPaint(
-                                                  size: Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.width),
-                                                  painter: ChessPainter(ChessType.none)
-                                              ),
-                                              CustomPaint(
-                                                  size: Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.width),
-                                                  painter: ChessPainter(ChessType.none)
-                                              ),
-                                              CustomPaint(
-                                                  size: Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.width),
-                                                  painter: ChessPainter(ChessType.none)
-                                              ),
-                                              CustomPaint(
-                                                  size: Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.width),
-                                                  painter: ChessPainter(ChessType.none)
-                                              ),
-                                              CustomPaint(
-                                                  size: Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.width),
-                                                  painter: ChessPainter(ChessType.none)
-                                              ),
-                                              CustomPaint(
-                                                  size: Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.width),
-                                                  painter: ChessPainter(ChessType.none)
-                                              ),
-                                              CustomPaint(
-                                                  size: Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.width),
-                                                  painter: ChessPainter(ChessType.circle)
-                                              ),
-                                              CustomPaint(
-                                                  size: Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.width),
-                                                  painter: ChessPainter(ChessType.fork)
-                                              )
+                                              ChessWidget(),
+                                              ChessWidget(),
+                                              ChessWidget(),
+                                              
+                                              ChessWidget(),
+                                              ChessWidget(),
+                                              ChessWidget(),
+
+                                              ChessWidget(),
+                                              ChessWidget(),
+                                              ChessWidget()
                                             ]
                                           )]
                               )

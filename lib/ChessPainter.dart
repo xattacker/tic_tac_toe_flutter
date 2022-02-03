@@ -1,14 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'logic/ChessGrid.dart';
 
-enum ChessType
-{
-  none,
-
-  circle,
-  fork
-}
 
 class ChessPainter extends CustomPainter
 {
@@ -51,8 +45,8 @@ class ChessPainter extends CustomPainter
   }
 
   @override
-  bool shouldRepaint(CustomPainter oldDelegate)
+  bool shouldRepaint(ChessPainter oldDelegate)
   {
-    return false;
+      return oldDelegate.type != this.type;
   }
 }

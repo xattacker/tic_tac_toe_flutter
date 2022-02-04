@@ -1,31 +1,31 @@
 import 'package:flutter/cupertino.dart';
 
-import 'ChessPainter.dart';
-import 'logic/ChessGrid.dart';
+import 'GridPainter.dart';
+import 'logic/TicTacToeGrid.dart';
 
-class ChessWidget extends StatefulWidget
+class GridWidget extends StatefulWidget
 {
-  ChessState createState() => ChessState();
+  GridState createState() => GridState();
 }
 
-class ChessState extends State<ChessWidget>
+class GridState extends State<GridWidget>
 {
-  ChessType type = ChessType.none;
+  GridStatus status = GridStatus.none;
 
   @override
     Widget build(BuildContext context) {
           return GestureDetector(
               onTap: () {
-                  if (this.type == ChessType.none)
+                  if (this.status == GridStatus.none)
                   {
                       setState(() {
-                        this.type = ChessType.circle;
+                        this.status = GridStatus.circle;
                       });
                   }
               },
               child:  CustomPaint(
                   size: Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.width),
-                  painter: ChessPainter(this.type)
+                  painter: ChessPainter(this.status)
               )
           );
     }

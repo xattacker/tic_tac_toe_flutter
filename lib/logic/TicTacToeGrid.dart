@@ -1,5 +1,5 @@
 
-enum ChessType
+enum GridStatus
 {
   none,
 
@@ -8,9 +8,9 @@ enum ChessType
 }
 
 // interface
-class ChessGrid
+class TicTacToeGrid
 {
   late int x;
   late int y;
-  ChessType type = ChessType.none;
+  GridStatus status = GridStatus.none;
 }

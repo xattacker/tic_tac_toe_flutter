@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'logic/ChessGrid.dart';
+import 'logic/TicTacToeGrid.dart';
 
 
 class ChessPainter extends CustomPainter
 {
-  ChessType type;
+  GridStatus _status;
 
-  ChessPainter(this.type);
+  ChessPainter(this._status);
 
   @override
   void paint(Canvas canvas, Size size)
@@ -18,9 +18,9 @@ class ChessPainter extends CustomPainter
         paint.style = PaintingStyle.stroke;
         paint.strokeWidth = size.width / 10;
 
-        switch (this.type)
+        switch (this._status)
         {
-            case ChessType.circle:
+            case GridStatus.circle:
               {
                   paint.color = Colors.lightBlue;
 
@@ -29,7 +29,7 @@ class ChessPainter extends CustomPainter
               }
               break;
 
-            case ChessType.fork:
+            case GridStatus.fork:
               {
                   paint.color = Colors.redAccent;
 
@@ -47,6 +47,6 @@ class ChessPainter extends CustomPainter
   @override
   bool shouldRepaint(ChessPainter oldDelegate)
   {
-      return oldDelegate.type != this.type;
+      return oldDelegate._status != this._status;
   }
 }

@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tic_tac_toe_flutter/ChessPainter.dart';
+import 'package:tic_tac_toe_flutter/GridPainter.dart';
 
 import 'BoardPainter.dart';
-import 'ChessWidget.dart';
+import 'GridWidget.dart';
 
 class TicTacToeWidget extends StatelessWidget {
   @override
@@ -30,17 +30,17 @@ class TicTacToeWidget extends StatelessWidget {
                                             physics: NeverScrollableScrollPhysics(), // disable scrollable
                                             shrinkWrap: true,
                                             children:<Widget>[
-                                              ChessWidget(),
-                                              ChessWidget(),
-                                              ChessWidget(),
+                                              GridWidget(),
+                                              GridWidget(),
+                                              GridWidget(),
                                               
-                                              ChessWidget(),
-                                              ChessWidget(),
-                                              ChessWidget(),
+                                              GridWidget(),
+                                              GridWidget(),
+                                              GridWidget(),
 
-                                              ChessWidget(),
-                                              ChessWidget(),
-                                              ChessWidget()
+                                              GridWidget(),
+                                              GridWidget(),
+                                              GridWidget()
                                             ]
                                           )]
                               )

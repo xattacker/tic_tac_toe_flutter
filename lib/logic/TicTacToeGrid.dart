@@ -31,4 +31,12 @@ class TicTacToeGrid
   late int x;
   late int y;
   GridStatus status = GridStatus.none;
+
+  late TicTacToeGridListener listener;
+}
+
+
+abstract class TicTacToeGridListener
+{
+    void onGridStatusUpdated(GridStatus status, TicTacToeGrid grid);
 }

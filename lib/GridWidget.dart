@@ -5,8 +5,7 @@ import 'logic/TicTacToeGrid.dart';
 
 class GridWidget extends StatefulWidget implements TicTacToeGrid
 {
-  @override
-  GridStatus status = GridStatus.none;
+  GridStatus _status = GridStatus.none;
 
   @override
   int x;
@@ -14,9 +13,22 @@ class GridWidget extends StatefulWidget implements TicTacToeGrid
   @override
   int y;
 
+  @override
+  GridStatus get status => _status;
+
+  @override
+  set status(GridStatus status)
+  {
+      _status = status;
+      this.listener.onGridStatusUpdated(_status, this);
+  }
+
   GridWidget(this.x, this.y);
 
   GridState createState() => GridState();
+
+  @override
+  late TicTacToeGridListener listener;
 }
 
 class GridState extends State<GridWidget>

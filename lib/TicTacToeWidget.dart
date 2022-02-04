@@ -31,6 +31,7 @@ class TicTacToeState extends State<TicTacToeWidget> implements TicTacToeLogicLis
            for (var j = 0; j < 3; j++)
            {
               GridWidget grid = GridWidget(i, j);
+              grid.listener = _logic;
                _grids.add(grid);
            }
        }

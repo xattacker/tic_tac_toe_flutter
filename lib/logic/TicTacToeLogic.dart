@@ -1,5 +1,6 @@
 
 import 'package:tic_tac_toe_flutter/GridWidget.dart';
+import 'package:collection/collection.dart';
 
 import 'ConnectedDirection.dart';
 import 'TicTacToeGrid.dart';
@@ -37,10 +38,7 @@ class TicTacToeLogic implements TicTacToeGridListener
     @override
     void onGridStatusUpdated(GridChessStatus status, TicTacToeGrid grid)
     {
-        var x = grid.x;
-        var y = grid.y;
-        print("$x ,  $y");
-        checkWin(grid);
+        _checkWin(grid);
     }
 
     @override
@@ -53,14 +51,34 @@ class TicTacToeLogic implements TicTacToeGridListener
           }
     }
 
-    void checkWin(TicTacToeGrid grid)
+    void restart()
     {
+        for (var sub in _grids)
+        {
+            for (var grid in sub)
+            {
+                grid.status = GridChessStatus.none;
+                print(grid.status);
+            }
+        }
+
+        _count = 0;
+    }
+
+    void _checkWin(TicTacToeGrid grid)
+    {
+          if (grid.status == GridChessStatus.none)
+          {
+              return;
+          }
+
+
          var direction = ConnectedDirection.lt_rb;
          var result = false;
 
          do
          {
-             result = checkDirectionWin(grid, direction);
+             result = _checkDirectionWin(grid, direction);
              direction = direction.next();
          } while (!result && direction != ConnectedDirection.none);
 
@@ -68,9 +86,20 @@ class TicTacToeLogic implements TicTacToeGridListener
          {
              _listener.onWon(grid.status == _playerGridStatus ? PlayerType.player : PlayerType.computer);
          }
+         else
+         {
+               List<TicTacToeGrid> grids = _grids.expand((element) => element).toList();
+               TicTacToeGrid? none_grid = grids.firstWhereOrNull(
+                                                            (element) => element.status == GridChessStatus.none);
+               if (none_grid == null)
+               {
+                  // 已全部下完, 平手
+                  _listener.onWon(PlayerType.unknown);
+               }
+         }
     }
 
-    bool checkDirectionWin(TicTacToeGrid grid, ConnectedDirection direction)
+    bool _checkDirectionWin(TicTacToeGrid grid, ConnectedDirection direction)
     {
             var offset = direction.offset;
             var x = grid.x + offset[0];

@@ -88,7 +88,7 @@ class TicTacToeState extends State<TicTacToeWidget> implements TicTacToeLogicLis
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: new AppBar(
-          title: new Text("TicTacToe"),
+          title: Text("TicTacToe"),
         ),
         body: SafeArea(
             child: Center(
@@ -118,6 +118,22 @@ class TicTacToeState extends State<TicTacToeWidget> implements TicTacToeLogicLis
   @override
   void onWon(PlayerType winner)
   {
-      print("onWon $winner");
+      showDialog(
+          context: context,
+          builder: (context) {
+            return new AlertDialog(
+              title: Text("Game Over"),
+              content: Text(winner == PlayerType.player ? "You win" :  winner == PlayerType.computer ? "You lose" : "Draw"),
+              actions: <Widget>[
+                TextButton(
+                  child: Text("OK"),
+                  onPressed: () {
+                    Navigator.of(context).pop(); //关闭对话框
+                    _logic.restart();
+                  },
+                )
+              ],
+            );
+          });
   }
 }

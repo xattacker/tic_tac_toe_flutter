@@ -24,16 +24,60 @@ class TicTacToeState extends State<TicTacToeWidget> implements TicTacToeLogicLis
   {
        super.initState();
 
-       _logic = new TicTacToeLogic(this, GridStatus.circle);
+
+       Future.delayed(Duration(milliseconds: 500), () {
+
+         var selection_width = MediaQuery.of(context).size.width * 0.25;
+         showDialog(
+           context: context,
+           builder: (context) {
+             return SimpleDialog(
+               title: Text("Chess Type Selection"),
+               contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+               //在 children 中可以加入選項
+               children: <Widget>[
+                 SimpleDialogOption(
+                   child: CustomPaint(
+                       size: Size(selection_width, selection_width),
+                       painter: ChessPainter(GridStatus.circle)
+                   ),
+                   onPressed: (){
+                       Navigator.pop(context, true);
+                       initLogic(GridStatus.circle);
+                   }),
+                 SimpleDialogOption(
+                   child: CustomPaint(
+                       size: Size(selection_width, selection_width),
+                       painter: ChessPainter(GridStatus.fork)
+                   ),
+                   onPressed: (){
+                        Navigator.pop(context, true);
+                        initLogic(GridStatus.fork);
+                   })
+               ],
+             );
+           },
+         );
+       });
+
 
        for (var i = 0; i < 3; i++)
        {
            for (var j = 0; j < 3; j++)
            {
               GridWidget grid = GridWidget(i, j);
-              grid.listener = _logic;
                _grids.add(grid);
            }
+       }
+  }
+
+  void initLogic(GridStatus selectedStatus)
+  {
+       _logic = new TicTacToeLogic(this, selectedStatus);
+
+       for (var gird in _grids)
+       {
+          gird.listener = _logic;
        }
   }
 

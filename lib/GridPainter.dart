@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +18,12 @@ class ChessPainter extends CustomPainter
         Paint paint = new Paint();
         paint.strokeCap = StrokeCap.round;
         paint.style = PaintingStyle.stroke;
-        paint.strokeWidth = size.width / 10;
+
+        var chess_width = min(size.width, size.height);
+        paint.strokeWidth = chess_width / 10;
+
+        var x_offset = (size.width - chess_width)/2;
+        var y_offset = (size.height - chess_width)/2;
 
         switch (this._status)
         {
@@ -24,8 +31,11 @@ class ChessPainter extends CustomPainter
               {
                   paint.color = Colors.lightBlue;
 
-                  var padding = size.width/10;
-                  canvas.drawCircle(Offset(size.width/2, size.height/2), (size.width/2) - (padding*2), paint);
+                  var padding = chess_width/10;
+                  canvas.drawCircle(
+                      Offset(chess_width/2 + x_offset, chess_width/2 + y_offset),
+                      (chess_width/2) - (padding*2),
+                      paint);
               }
               break;
 
@@ -33,9 +43,16 @@ class ChessPainter extends CustomPainter
               {
                   paint.color = Colors.redAccent;
 
-                  var padding = size.width/5;
-                  canvas.drawLine(Offset(padding, padding), Offset(size.width - padding, size.height - padding), paint);
-                  canvas.drawLine(Offset(size.width - padding, padding), Offset(padding, size.height - padding), paint);
+                  var padding = chess_width/5;
+                  canvas.drawLine(
+                      Offset(padding + x_offset, padding + y_offset),
+                      Offset(chess_width - padding + x_offset, chess_width - padding + y_offset),
+                      paint);
+
+                  canvas.drawLine(
+                      Offset(chess_width - padding + x_offset, padding + y_offset),
+                      Offset(padding + x_offset, chess_width - padding + y_offset),
+                      paint);
               }
               break;
 

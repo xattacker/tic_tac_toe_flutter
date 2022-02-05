@@ -14,10 +14,10 @@ enum PlayerType
 
 class TicTacToeLogic implements TicTacToeGridListener
 {
-    GridStatus _playerGrid;
+    GridStatus _playerGridStatus;
     TicTacToeLogicListener _listener;
 
-    TicTacToeLogic(this._listener, this._playerGrid)
+    TicTacToeLogic(this._listener, this._playerGridStatus)
     {
     }
 
@@ -27,5 +27,14 @@ class TicTacToeLogic implements TicTacToeGridListener
         var x = grid.x;
         var y = grid.y;
         print("$x ,  $y");
+    }
+
+    @override
+    void chess(TicTacToeGrid grid)
+    {
+          if (grid.status == GridStatus.none)
+          {
+              grid.status = _playerGridStatus;
+          }
     }
 }

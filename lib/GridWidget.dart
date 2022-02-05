@@ -29,6 +29,11 @@ class GridWidget extends StatefulWidget implements TicTacToeGrid
 
   @override
   late TicTacToeGridListener listener;
+
+  void chess()
+  {
+      this.listener.chess(this);
+  }
 }
 
 class GridState extends State<GridWidget>
@@ -40,7 +45,7 @@ class GridState extends State<GridWidget>
                   if (this.widget.status == GridStatus.none)
                   {
                       setState(() {
-                        this.widget.status = GridStatus.circle;
+                          this.widget.chess();
                       });
                   }
               },

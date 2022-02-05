@@ -39,4 +39,5 @@ class TicTacToeGrid
 abstract class TicTacToeGridListener
 {
     void onGridStatusUpdated(GridStatus status, TicTacToeGrid grid);
+    void chess(TicTacToeGrid grid);
 }

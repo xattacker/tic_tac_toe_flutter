@@ -8,7 +8,7 @@ import 'logic/TicTacToeGrid.dart';
 
 class ChessPainter extends CustomPainter
 {
-  GridStatus _status;
+  GridChessStatus _status;
 
   ChessPainter(this._status);
 
@@ -27,7 +27,7 @@ class ChessPainter extends CustomPainter
 
         switch (this._status)
         {
-            case GridStatus.circle:
+            case GridChessStatus.circle:
               {
                   paint.color = Colors.lightBlue;
 
@@ -39,7 +39,7 @@ class ChessPainter extends CustomPainter
               }
               break;
 
-            case GridStatus.fork:
+            case GridChessStatus.fork:
               {
                   paint.color = Colors.redAccent;
 

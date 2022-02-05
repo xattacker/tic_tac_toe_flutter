@@ -39,20 +39,20 @@ class TicTacToeState extends State<TicTacToeWidget> implements TicTacToeLogicLis
                  SimpleDialogOption(
                    child: CustomPaint(
                        size: Size(selection_width, selection_width),
-                       painter: ChessPainter(GridStatus.circle)
+                       painter: ChessPainter(GridChessStatus.circle)
                    ),
                    onPressed: (){
                        Navigator.pop(context, true);
-                       initLogic(GridStatus.circle);
+                       initLogic(GridChessStatus.circle);
                    }),
                  SimpleDialogOption(
                    child: CustomPaint(
                        size: Size(selection_width, selection_width),
-                       painter: ChessPainter(GridStatus.fork)
+                       painter: ChessPainter(GridChessStatus.fork)
                    ),
                    onPressed: (){
                         Navigator.pop(context, true);
-                        initLogic(GridStatus.fork);
+                        initLogic(GridChessStatus.fork);
                    })
                ],
              );
@@ -71,7 +71,7 @@ class TicTacToeState extends State<TicTacToeWidget> implements TicTacToeLogicLis
        }
   }
 
-  void initLogic(GridStatus selectedStatus)
+  void initLogic(GridChessStatus selectedStatus)
   {
        _logic = new TicTacToeLogic(this, selectedStatus);
 

@@ -16,13 +16,18 @@ class TicTacToeLogic implements TicTacToeGridListener
 {
     GridChessStatus _playerGridStatus;
     TicTacToeLogicListener _listener;
-    List<TicTacToeGrid> _grids;
+    List<List<TicTacToeGrid>> _grids;
+
+    int _count = 0;
 
     TicTacToeLogic(this._listener, this._playerGridStatus, this._grids)
     {
-        for (var gird in _grids)
+        for (var sub in _grids)
         {
-            gird.listener = this;
+            for (var grid in sub)
+            {
+                grid.listener = this;
+            }
         }
     }
 
@@ -32,7 +37,7 @@ class TicTacToeLogic implements TicTacToeGridListener
         var x = grid.x;
         var y = grid.y;
         print("$x ,  $y");
-        checkWin();
+        checkWin(grid);
     }
 
     @override
@@ -40,11 +45,12 @@ class TicTacToeLogic implements TicTacToeGridListener
     {
           if (grid.status == GridChessStatus.none)
           {
-              grid.status = _playerGridStatus;
+              _count++;
+              grid.status = _count % 2 == 1 ?  _playerGridStatus : _playerGridStatus.theOtherStatus;
           }
     }
 
-    void checkWin()
+    void checkWin(TicTacToeGrid grid)
     {
 
     }

@@ -17,7 +17,7 @@ class TicTacToeWidget extends StatefulWidget
 class TicTacToeState extends State<TicTacToeWidget> implements TicTacToeLogicListener
 {
   late TicTacToeLogic _logic;
-  List<GridWidget> _grids = [];
+  List<List<GridWidget>> _grids = [];
 
   @override
   void initState()
@@ -26,49 +26,57 @@ class TicTacToeState extends State<TicTacToeWidget> implements TicTacToeLogicLis
 
 
        Future.delayed(Duration(milliseconds: 500), () {
-
-         var selection_width = MediaQuery.of(context).size.width * 0.25;
-         showDialog(
-           context: context,
-           builder: (context) {
-             return SimpleDialog(
-               title: Text("Chess Type Selection"),
-               contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-               //在 children 中可以加入選項
-               children: <Widget>[
-                 SimpleDialogOption(
-                   child: CustomPaint(
-                       size: Size(selection_width, selection_width),
-                       painter: ChessPainter(GridChessStatus.circle)
-                   ),
-                   onPressed: (){
-                       Navigator.pop(context, true);
-                       initLogic(GridChessStatus.circle);
-                   }),
-                 SimpleDialogOption(
-                   child: CustomPaint(
-                       size: Size(selection_width, selection_width),
-                       painter: ChessPainter(GridChessStatus.fork)
-                   ),
-                   onPressed: (){
-                        Navigator.pop(context, true);
-                        initLogic(GridChessStatus.fork);
-                   })
-               ],
-             );
-           },
-         );
+         selectChessType();
        });
 
 
        for (var i = 0; i < 3; i++)
        {
+           List<GridWidget> sub_array = [];
            for (var j = 0; j < 3; j++)
            {
-              GridWidget grid = GridWidget(i, j);
-               _grids.add(grid);
+                GridWidget grid = GridWidget(i, j);
+                sub_array.add(grid);
            }
+
+           _grids.add(sub_array);
        }
+  }
+
+  void selectChessType()
+  {
+      var selection_width = MediaQuery.of(context).size.width * 0.25;
+  
+      showDialog(
+        context: context,
+        builder: (context) {
+          return SimpleDialog(
+            title: Text("Chess Type Selection"),
+            contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+            //在 children 中可以加入選項
+            children: <Widget>[
+              SimpleDialogOption(
+                  child: CustomPaint(
+                      size: Size(selection_width, selection_width),
+                      painter: ChessPainter(GridChessStatus.circle)
+                  ),
+                  onPressed: (){
+                    Navigator.pop(context, true);
+                    initLogic(GridChessStatus.circle);
+                  }),
+              SimpleDialogOption(
+                  child: CustomPaint(
+                      size: Size(selection_width, selection_width),
+                      painter: ChessPainter(GridChessStatus.fork)
+                  ),
+                  onPressed: (){
+                    Navigator.pop(context, true);
+                    initLogic(GridChessStatus.fork);
+                  })
+            ],
+          );
+        },
+      );
   }
 
   void initLogic(GridChessStatus selectedStatus)
@@ -99,7 +107,7 @@ class TicTacToeState extends State<TicTacToeWidget> implements TicTacToeLogicLis
                           ),
                           physics: NeverScrollableScrollPhysics(), // disable scrollable
                           shrinkWrap: true,
-                          children: _grids
+                          children: _grids.expand((element) => element).toList()
                       )]
                 )
             )

@@ -73,12 +73,7 @@ class TicTacToeState extends State<TicTacToeWidget> implements TicTacToeLogicLis
 
   void initLogic(GridChessStatus selectedStatus)
   {
-       _logic = new TicTacToeLogic(this, selectedStatus);
-
-       for (var gird in _grids)
-       {
-          gird.listener = _logic;
-       }
+       _logic = new TicTacToeLogic(this, selectedStatus, this._grids);
   }
 
   @override

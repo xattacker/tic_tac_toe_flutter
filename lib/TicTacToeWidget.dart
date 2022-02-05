@@ -46,7 +46,7 @@ class TicTacToeState extends State<TicTacToeWidget> implements TicTacToeLogicLis
   void selectChessType()
   {
       var selection_width = MediaQuery.of(context).size.width * 0.25;
-  
+
       showDialog(
         context: context,
         builder: (context) {
@@ -118,6 +118,6 @@ class TicTacToeState extends State<TicTacToeWidget> implements TicTacToeLogicLis
   @override
   void onWon(PlayerType winner)
   {
-
+      print("onWon $winner");
   }
 }

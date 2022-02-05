@@ -1,6 +1,7 @@
 
 import 'package:tic_tac_toe_flutter/GridWidget.dart';
 
+import 'ConnectedDirection.dart';
 import 'TicTacToeGrid.dart';
 import 'TicTacToeLogicListener.dart';
 
@@ -14,6 +15,8 @@ enum PlayerType
 
 class TicTacToeLogic implements TicTacToeGridListener
 {
+    static const  WIN_COUNT = 3;
+
     GridChessStatus _playerGridStatus;
     TicTacToeLogicListener _listener;
     List<List<TicTacToeGrid>> _grids;
@@ -52,6 +55,54 @@ class TicTacToeLogic implements TicTacToeGridListener
 
     void checkWin(TicTacToeGrid grid)
     {
+         var direction = ConnectedDirection.lt_rb;
+         var result = false;
 
+         do
+         {
+             result = checkDirectionWin(grid, direction);
+             direction = direction.next();
+         } while (!result && direction != ConnectedDirection.none);
+
+         if (result)
+         {
+             _listener.onWon(grid.status == _playerGridStatus ? PlayerType.player : PlayerType.computer);
+         }
+    }
+
+    bool checkDirectionWin(TicTacToeGrid grid, ConnectedDirection direction)
+    {
+            var offset = direction.offset;
+            var x = grid.x + offset[0];
+            var y = grid.y + offset[1];
+            var connected_count = 1;
+
+            while (x >= 0 && x < WIN_COUNT && y >= 0 && y < WIN_COUNT && _grids[x][y].status == grid.status)
+            {
+                connected_count++;
+                x += offset[0];
+                y += offset[1];
+            }
+
+            if (connected_count >= WIN_COUNT)
+            {
+                return true;
+            }
+
+            x = grid.x - offset[0];
+            y = grid.y - offset[1];
+            while (x >= 0 && x < WIN_COUNT && y >= 0 && y < WIN_COUNT && _grids[x][y].status == grid.status)
+            {
+                connected_count++;
+                x -= offset[0];
+                y -= offset[1];
+            }
+
+            if (connected_count >= WIN_COUNT)
+            {
+                return true;
+            }
+
+            return false;
     }
 }

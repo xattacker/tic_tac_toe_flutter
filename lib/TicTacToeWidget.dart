@@ -4,6 +4,7 @@ import 'package:tic_tac_toe_flutter/GridPainter.dart';
 import 'package:tic_tac_toe_flutter/logic/TicTacToeGrid.dart';
 
 import 'BoardPainter.dart';
+import 'GradeRecorder.dart';
 import 'GridWidget.dart';
 import 'logic/TicTacToeLogic.dart';
 import 'logic/TicTacToeLogicListener.dart';
@@ -18,6 +19,7 @@ class TicTacToeState extends State<TicTacToeWidget> implements TicTacToeLogicLis
 {
   late TicTacToeLogic _logic;
   List<List<GridWidget>> _grids = [];
+  GradeRecorder _gradeRecorder = GradeRecorder();
 
   @override
   void initState()
@@ -92,24 +94,31 @@ class TicTacToeState extends State<TicTacToeWidget> implements TicTacToeLogicLis
         ),
         body: SafeArea(
             child: Center(
-                child:
-                Stack(
-                    alignment: Alignment.center,
-                    children:  [
-                      CustomPaint( //<--- 使用绘制组件
-                          size: Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.width),
-                          painter: BoardPainter()
-                      ),
-                      GridView(
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3, //横轴三个子widget
-                              childAspectRatio: 1.0 //宽高比为1时，子widget
-                          ),
-                          physics: NeverScrollableScrollPhysics(), // disable scrollable
-                          shrinkWrap: true,
-                          children: _grids.expand((element) => element).toList()
-                      )]
-                )
+                child:  Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                                            Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(_gradeRecorder.getString())),
+                                            Stack(
+                                                alignment: Alignment.center,
+                                                children:  [
+                                                  CustomPaint( //<--- 使用绘制组件
+                                                      size: Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.width),
+                                                      painter: BoardPainter()
+                                                  ),
+                                                  GridView(
+                                                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                                          crossAxisCount: 3, //横轴三个子widget
+                                                          childAspectRatio: 1.0 //宽高比为1时，子widget
+                                                      ),
+                                                      physics: NeverScrollableScrollPhysics(), // disable scrollable
+                                                      shrinkWrap: true,
+                                                      children: _grids.expand((element) => element).toList()
+                                                  )]
+                                            )
+                                          ],
+                          )
             )
         )
     );
@@ -118,6 +127,23 @@ class TicTacToeState extends State<TicTacToeWidget> implements TicTacToeLogicLis
   @override
   void onWon(PlayerType winner)
   {
+      setState(() {
+        switch (winner)
+        {
+          case PlayerType.player:
+            _gradeRecorder.addWin();
+            break;
+
+          case PlayerType.computer:
+            _gradeRecorder.addLose();
+            break;
+
+          case PlayerType.unknown:
+            _gradeRecorder.addDraw();
+            break;
+        }
+      });
+    
       showDialog(
           context: context,
           builder: (context) {

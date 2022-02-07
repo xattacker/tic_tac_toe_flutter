@@ -29,7 +29,7 @@ class ChessPainter extends CustomPainter
         {
             case GridChessType.circle:
               {
-                  paint.color = Colors.lightBlue;
+                  paint.color = Colors.redAccent;
 
                   var padding = chess_width/10;
                   canvas.drawCircle(
@@ -41,7 +41,7 @@ class ChessPainter extends CustomPainter
 
             case GridChessType.fork:
               {
-                  paint.color = Colors.redAccent;
+                 paint.color = Colors.lightBlue;
 
                   var padding = chess_width/5;
                   canvas.drawLine(

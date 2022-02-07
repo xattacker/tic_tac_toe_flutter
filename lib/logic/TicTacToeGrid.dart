@@ -28,16 +28,21 @@ extension GridStatusExtension on GridChessType
 // interface
 class TicTacToeGrid
 {
-  late int x;
-  late int y;
-  GridChessType type = GridChessType.none;
+    late int x;
+    late int y;
+    GridChessType type = GridChessType.none;
 
-  late TicTacToeGridListener listener;
+    late TicTacToeGridListener listener;
 }
 
+extension TicTacToeGridExtension on TicTacToeGrid
+{
+    int get index => (this.x * this.listener.dimension) + this.y;
+}
 
 abstract class TicTacToeGridListener
 {
+    int get dimension;
     void onGridStatusUpdated(GridChessType type, TicTacToeGrid grid);
     void chess(TicTacToeGrid grid);
 }

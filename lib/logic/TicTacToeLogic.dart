@@ -16,7 +16,7 @@ enum PlayerType
 
 class TicTacToeLogic implements TicTacToeGridListener
 {
-    static const  WIN_COUNT = 3;
+    static const  GRID_DIMENSION = 3;
 
     GridChessType get selectedChessType => _playerSelectedType;
 
@@ -36,6 +36,9 @@ class TicTacToeLogic implements TicTacToeGridListener
             }
         }
     }
+
+    @override
+    int get dimension => GRID_DIMENSION;
 
     @override
     void onGridStatusUpdated(GridChessType status, TicTacToeGrid grid)
@@ -108,28 +111,28 @@ class TicTacToeLogic implements TicTacToeGridListener
             var y = grid.y + offset[1];
             var connected_count = 1;
 
-            while (x >= 0 && x < WIN_COUNT && y >= 0 && y < WIN_COUNT && _grids[x][y].type == grid.type)
+            while (x >= 0 && x < GRID_DIMENSION && y >= 0 && y < GRID_DIMENSION && _grids[x][y].type == grid.type)
             {
                 connected_count++;
                 x += offset[0];
                 y += offset[1];
             }
 
-            if (connected_count >= WIN_COUNT)
+            if (connected_count >= GRID_DIMENSION)
             {
                 return true;
             }
 
             x = grid.x - offset[0];
             y = grid.y - offset[1];
-            while (x >= 0 && x < WIN_COUNT && y >= 0 && y < WIN_COUNT && _grids[x][y].type == grid.type)
+            while (x >= 0 && x < GRID_DIMENSION && y >= 0 && y < GRID_DIMENSION && _grids[x][y].type == grid.type)
             {
                 connected_count++;
                 x -= offset[0];
                 y -= offset[1];
             }
 
-            if (connected_count >= WIN_COUNT)
+            if (connected_count >= GRID_DIMENSION)
             {
                 return true;
             }

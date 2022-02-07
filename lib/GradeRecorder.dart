@@ -3,11 +3,11 @@ class GradeRecorder
 {
   int _winCount = 0;
   int _lostCount = 0;
-  int _drawCount = 0;
+  int _tiedCount = 0;
 
   int get winCount => _winCount;
   int get lostCount => _lostCount;
-  int get drawCount => _drawCount;
+  int get tiedCount => _tiedCount;
 
   void addWin()
   {
@@ -19,16 +19,16 @@ class GradeRecorder
       _lostCount++;
   }
 
-  void addDraw()
+  void addTie()
   {
-      _drawCount++;
+    _tiedCount++;
   }
 
   void reset()
   {
       _winCount = 0;
       _lostCount = 0;
-      _drawCount = 0;
+      _tiedCount = 0;
   }
 }
 
@@ -47,8 +47,8 @@ extension GradeRecorderExtension on GradeRecorder
         text += "$_lostCount";
 
         text += ",  ";
-        text += "Draw: ";
-        text += "$_drawCount";
+        text += "Tie: ";
+        text += "$_tiedCount";
 
         return text;
     }

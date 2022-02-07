@@ -156,7 +156,7 @@ class TicTacToeState extends State<TicTacToeWidget> implements TicTacToeLogicLis
             break;
 
           case PlayerType.unknown:
-            _gradeRecorder.addDraw();
+            _gradeRecorder.addTie();
             break;
         }
       });
@@ -167,7 +167,7 @@ class TicTacToeState extends State<TicTacToeWidget> implements TicTacToeLogicLis
           builder: (context) {
             return new AlertDialog(
                                 title: Text("Game Over"),
-                                content: Text(winner == PlayerType.player ? "You win" :  winner == PlayerType.computer ? "You lose" : "Draw"),
+                                content: Text(winner == PlayerType.player ? "You win" :  winner == PlayerType.computer ? "You lose" : "Tie"),
                                 actions: <Widget>[
                                   TextButton(
                                     child: Text("OK"),

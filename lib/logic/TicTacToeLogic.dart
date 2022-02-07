@@ -18,13 +18,15 @@ class TicTacToeLogic implements TicTacToeGridListener
 {
     static const  WIN_COUNT = 3;
 
-    GridChessType _playerGridStatus;
+    GridChessType get selectedChessType => _playerSelectedType;
+
+    GridChessType _playerSelectedType;
     TicTacToeLogicListener _listener;
     List<List<TicTacToeGrid>> _grids;
 
     int _count = 0;
 
-    TicTacToeLogic(this._listener, this._playerGridStatus, this._grids)
+    TicTacToeLogic(this._listener, this._playerSelectedType, this._grids)
     {
         for (var sub in _grids)
         {
@@ -47,7 +49,7 @@ class TicTacToeLogic implements TicTacToeGridListener
           if (grid.type == GridChessType.none)
           {
               _count++;
-              grid.type = _count % 2 == 1 ?  _playerGridStatus : _playerGridStatus.theOther;
+              grid.type = _count % 2 == 1 ?  _playerSelectedType : _playerSelectedType.theOther;
           }
     }
 
@@ -84,7 +86,7 @@ class TicTacToeLogic implements TicTacToeGridListener
 
          if (result)
          {
-             _listener.onWon(grid.type == _playerGridStatus ? PlayerType.player : PlayerType.computer);
+             _listener.onWon(grid.type == _playerSelectedType ? PlayerType.player : PlayerType.computer);
          }
          else
          {

@@ -18,7 +18,7 @@ class TicTacToeWidget extends StatefulWidget
 
 class TicTacToeState extends State<TicTacToeWidget> implements TicTacToeLogicListener
 {
-  late TicTacToeLogic _logic;
+  TicTacToeLogic? _logic;
   List<List<GridWidget>> _grids = [];
   GradeRecorder _gradeRecorder = GradeRecorder();
 
@@ -52,6 +52,7 @@ class TicTacToeState extends State<TicTacToeWidget> implements TicTacToeLogicLis
 
       showDialog(
         context: context,
+        barrierDismissible: false, // disable dismissed when clicking  dialog outside
         builder: (context) {
           return SimpleDialog(
             title: Text("Chess Type Selection"),
@@ -98,7 +99,24 @@ class TicTacToeState extends State<TicTacToeWidget> implements TicTacToeLogicLis
                                                 child: Text(_gradeRecorder.getString())),
                                             Padding(
                                                 padding: const EdgeInsets.all(8.0),
-                                                child: Text(_gradeRecorder.getString())),
+                                                child:
+                                                        Row(
+                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                            children: <Widget>[
+                                                                            Text("You: "),
+                                                                            CustomPaint(
+                                                                                size: Size(MediaQuery.of(context).size.width * 0.08, MediaQuery.of(context).size.width * 0.08),
+                                                                                painter: ChessPainter(_logic?.selectedChessType ?? GridChessType.none)
+                                                                            ),
+                                                                           Padding(
+                                                                              padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                                                                              child: Text("Opponent: ")),
+                                                                           CustomPaint(
+                                                                              size: Size(MediaQuery.of(context).size.width * 0.08, MediaQuery.of(context).size.width * 0.08),
+                                                                              painter: ChessPainter(_logic?.selectedChessType.theOther ?? GridChessType.none)
+                                                                            )
+                                                            ]
+                                                      )),
                                             Stack(
                                                 alignment: Alignment.center,
                                                 children:  [
@@ -145,6 +163,7 @@ class TicTacToeState extends State<TicTacToeWidget> implements TicTacToeLogicLis
     
       showDialog(
           context: context,
+          barrierDismissible: false, // disable dismissed when clicking  dialog outside
           builder: (context) {
             return new AlertDialog(
                                 title: Text("Game Over"),
@@ -154,7 +173,7 @@ class TicTacToeState extends State<TicTacToeWidget> implements TicTacToeLogicLis
                                     child: Text("OK"),
                                     onPressed: () {
                                       Navigator.of(context).pop(); //关闭对话框
-                                      _logic.restart();
+                                      _logic?.restart();
                                     }
                                   )
                                 ]
@@ -164,6 +183,8 @@ class TicTacToeState extends State<TicTacToeWidget> implements TicTacToeLogicLis
 
   void _initLogic(GridChessType selectedType)
   {
-      _logic = new TicTacToeLogic(this, selectedType, this._grids);
+      setState(() {
+        _logic = new TicTacToeLogic(this, selectedType, this._grids);
+      });
   }
 }

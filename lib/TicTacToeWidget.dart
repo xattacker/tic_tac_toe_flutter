@@ -98,7 +98,7 @@ class TicTacToeState extends State<TicTacToeWidget> implements TicTacToeLogicLis
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                       Padding(
-                          padding: EdgeInsets.all(8.0),
+                          padding: EdgeInsets.fromLTRB(0, 0, 0, 8),
                           child: Text(_gradeRecorder.toString())),
                       Padding(
                           padding: EdgeInsets.fromLTRB(0, 0, 0, MediaQuery.of(context).size.width * 1.2),

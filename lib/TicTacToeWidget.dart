@@ -90,53 +90,57 @@ class TicTacToeState extends State<TicTacToeWidget> implements TicTacToeLogicLis
           title: Text("TicTacToe"),
         ),
         body: SafeArea(
-            child: Center(
-                child:  Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                                            Padding(
-                                                padding: const EdgeInsets.all(8.0),
-                                                child: Text(_gradeRecorder.toString())),
-                                            Padding(
-                                                padding: const EdgeInsets.all(8.0),
-                                                child:
-                                                        Row(
-                                                            mainAxisAlignment: MainAxisAlignment.center,
-                                                            children: <Widget>[
-                                                                            Text("You: "),
-                                                                            CustomPaint(
-                                                                                size: Size(MediaQuery.of(context).size.width * 0.08, MediaQuery.of(context).size.width * 0.08),
-                                                                                painter: ChessPainter(_logic?.selectedChessType ?? GridChessType.none)
-                                                                            ),
-                                                                           Padding(
-                                                                              padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-                                                                              child: Text("Opponent: ")),
-                                                                           CustomPaint(
-                                                                              size: Size(MediaQuery.of(context).size.width * 0.08, MediaQuery.of(context).size.width * 0.08),
-                                                                              painter: ChessPainter(_logic?.selectedChessType.theOther ?? GridChessType.none)
-                                                                            )
-                                                            ]
-                                                      )),
-                                            Stack(
-                                                alignment: Alignment.center,
-                                                children:  [
-                                                  CustomPaint( //<--- 使用绘制组件
-                                                      size: Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.width),
-                                                      painter: BoardPainter()
-                                                  ),
-                                                  GridView(
-                                                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                                          crossAxisCount: 3, //横轴三个子widget
-                                                          childAspectRatio: 1.0 //宽高比为1时，子widget
-                                                      ),
-                                                      physics: NeverScrollableScrollPhysics(), // disable scrollable
-                                                      shrinkWrap: true,
-                                                      children: _grids.expand((element) => element).toList()
-                                                  )]
-                                            )
-                                          ]
-                          )
-            )
+            child:
+              Stack(
+                alignment: Alignment.center,
+                children:  [
+                  Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                      Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(_gradeRecorder.toString())),
+                      Padding(
+                          padding: EdgeInsets.fromLTRB(0, 0, 0, MediaQuery.of(context).size.width * 1.2),
+                          child:
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text("You: "),
+                                CustomPaint(
+                                    size: Size(MediaQuery.of(context).size.width * 0.08, MediaQuery.of(context).size.width * 0.08),
+                                    painter: ChessPainter(_logic?.selectedChessType ?? GridChessType.none)
+                                ),
+                                Padding(
+                                    padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                                    child: Text("Opponent: ")),
+                                CustomPaint(
+                                    size: Size(MediaQuery.of(context).size.width * 0.08, MediaQuery.of(context).size.width * 0.08),
+                                    painter: ChessPainter(_logic?.selectedChessType.theOther ?? GridChessType.none)
+                                )
+                              ]
+                          ))]
+                  ),
+                  Center(
+                      child: Stack(
+                                  alignment: Alignment.center,
+                                  children:  [
+                                    CustomPaint( //<--- 使用绘制组件
+                                        size: Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.width),
+                                        painter: BoardPainter()
+                                    ),
+                                    GridView(
+                                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 3, //横轴三个子widget
+                                            childAspectRatio: 1.0 //宽高比为1时，子widget
+                                        ),
+                                        physics: NeverScrollableScrollPhysics(), // disable scrollable
+                                        shrinkWrap: true,
+                                        children: _grids.expand((element) => element).toList()
+                                    )]
+                                )
+                  )
+                  ])
         )
     );
   }

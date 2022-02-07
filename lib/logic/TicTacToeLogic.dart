@@ -62,7 +62,6 @@ class TicTacToeLogic implements TicTacToeGridListener
             for (var grid in sub)
             {
                 grid.type = GridChessType.none;
-                print(grid.type);
             }
         }
 
@@ -154,16 +153,13 @@ class TicTacToeLogic implements TicTacToeGridListener
 
     void _runAIBestMoveAlgorithm()
     {
-         var bestStep = _runAIBestMoveAlgorithm2(null, _grids);
+         var bestStep = _runAIBestMoveAlgorithm2(null, _playerSelectedType.theOther, _grids);
          for (var sub in _grids)
          {
              for (var grid in sub)
              {
-                print(grid.index);
-                print(bestStep.left.index);
                 if (grid.index == bestStep.left.index)
                 {
-                    print("chess");
                     chess(grid);
                     break;
                 }
@@ -171,8 +167,17 @@ class TicTacToeLogic implements TicTacToeGridListener
          }
     }
 
-    Pair<TicTacToeGrid, int> _runAIBestMoveAlgorithm2(TicTacToeGrid? grid, List<List<TicTacToeGrid>> grids)
+    Pair<TicTacToeGrid, int> _runAIBestMoveAlgorithm2(TicTacToeGrid? grid, GridChessType type, List<List<TicTacToeGrid>> grids)
     {
+         if (grid != null)
+         {
+             var score = _calMoveScore(grid, grids);
+             if (score != 0)
+             {
+                return Pair(grid, score);
+             }
+         }
+
           var avails = _availGrids(grids);
           if (avails.isEmpty && grid != null)
           {
@@ -182,19 +187,15 @@ class TicTacToeLogic implements TicTacToeGridListener
           else
           {
               List<Pair<TicTacToeGrid, int>> move_steps = [];
-              var count = 0;
-
               for (var grid in avails)
               {
                   var clone_grids = _cloneGrids(grids);
                   var found = findGrid(grid, clone_grids);
                   if (found != null)
                   {
-                      found.type = count % 2 == 0 ? _playerSelectedType.theOther : _playerSelectedType;
-                      move_steps.add(_runAIBestMoveAlgorithm2(found, clone_grids));
+                      found.type = type;
+                      move_steps.add(_runAIBestMoveAlgorithm2(found, type.theOther, clone_grids));
                   }
-                  
-                  count++;
               }
 
               var bestScore = -9999;
@@ -203,8 +204,8 @@ class TicTacToeLogic implements TicTacToeGridListener
               {
                   if (step.right > bestScore)
                   {
-                    bestScore = step.right;
-                    bestStep = step.left;
+                      bestScore = step.right;
+                      bestStep = step.left;
                   }
               }
 

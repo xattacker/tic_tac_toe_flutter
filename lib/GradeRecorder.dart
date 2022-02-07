@@ -1,5 +1,5 @@
 
-class GradeRecorder
+class GradeRecorder extends Object
 {
   int _winCount = 0;
   int _lostCount = 0;
@@ -30,12 +30,9 @@ class GradeRecorder
       _lostCount = 0;
       _tiedCount = 0;
   }
-}
 
-
-extension GradeRecorderExtension on GradeRecorder
-{
-    String getString()
+   @override
+    String toString()
     {
         var text = "";
 

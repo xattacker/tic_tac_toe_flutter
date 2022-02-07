@@ -38,6 +38,16 @@ class TicTacToeGrid
 extension TicTacToeGridExtension on TicTacToeGrid
 {
     int get index => (this.x * this.listener.dimension) + this.y;
+
+    TicTacToeGrid clone()
+    {
+        TicTacToeGrid grid = TicTacToeGrid();
+        grid.x = this.x;
+        grid.y = this.y;
+        grid.type = this.type;
+
+        return grid;
+    }
 }
 
 abstract class TicTacToeGridListener

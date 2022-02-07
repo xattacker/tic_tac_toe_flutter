@@ -96,7 +96,7 @@ class TicTacToeState extends State<TicTacToeWidget> implements TicTacToeLogicLis
                             children: <Widget>[
                                             Padding(
                                                 padding: const EdgeInsets.all(8.0),
-                                                child: Text(_gradeRecorder.getString())),
+                                                child: Text(_gradeRecorder.toString())),
                                             Padding(
                                                 padding: const EdgeInsets.all(8.0),
                                                 child:

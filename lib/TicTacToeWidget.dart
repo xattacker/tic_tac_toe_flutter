@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tic_tac_toe_flutter/GridPainter.dart';
 import 'package:tic_tac_toe_flutter/logic/TicTacToeGrid.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import 'BoardPainter.dart';
 import 'GradeRecorder.dart';
@@ -139,8 +140,30 @@ class TicTacToeState extends State<TicTacToeWidget> implements TicTacToeLogicLis
                                         children: _grids.expand((element) => element).toList()
                                     )]
                                 )
+                    ),
+            Stack(
+                alignment: Alignment.bottomRight,
+                children: [
+                  FutureBuilder<PackageInfo>(
+                    future: PackageInfo.fromPlatform(),
+                    builder: (context, snapshot) {
+                      switch (snapshot.connectionState) {
+                        case ConnectionState.done:
+                          return Align(
+                                      alignment: Alignment.bottomRight,
+                                      child:
+                                      Padding(
+                                          padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
+                                          child: Text( 'Version: ${snapshot.data?.version}'))
+                                    );
+                        default:
+                          return const SizedBox();
+                      }
+                    },
                   )
-                  ])
+                  ]
+            )
+          ])
         )
     );
   }

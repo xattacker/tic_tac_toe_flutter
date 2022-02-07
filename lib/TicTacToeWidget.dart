@@ -147,7 +147,8 @@ class TicTacToeState extends State<TicTacToeWidget> implements TicTacToeLogicLis
                   FutureBuilder<PackageInfo>(
                     future: PackageInfo.fromPlatform(),
                     builder: (context, snapshot) {
-                      switch (snapshot.connectionState) {
+                      switch (snapshot.connectionState)
+                      {
                         case ConnectionState.done:
                           return Align(
                                       alignment: Alignment.bottomRight,

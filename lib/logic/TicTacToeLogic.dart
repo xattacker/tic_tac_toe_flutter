@@ -18,7 +18,7 @@ class TicTacToeLogic implements TicTacToeGridListener
 {
     static const  WIN_COUNT = 3;
 
-    GridChessStatus _playerGridStatus;
+    GridChessType _playerGridStatus;
     TicTacToeLogicListener _listener;
     List<List<TicTacToeGrid>> _grids;
 
@@ -36,7 +36,7 @@ class TicTacToeLogic implements TicTacToeGridListener
     }
 
     @override
-    void onGridStatusUpdated(GridChessStatus status, TicTacToeGrid grid)
+    void onGridStatusUpdated(GridChessType status, TicTacToeGrid grid)
     {
         _checkWin(grid);
     }
@@ -44,10 +44,10 @@ class TicTacToeLogic implements TicTacToeGridListener
     @override
     void chess(TicTacToeGrid grid)
     {
-          if (grid.status == GridChessStatus.none)
+          if (grid.type == GridChessType.none)
           {
               _count++;
-              grid.status = _count % 2 == 1 ?  _playerGridStatus : _playerGridStatus.theOtherStatus;
+              grid.type = _count % 2 == 1 ?  _playerGridStatus : _playerGridStatus.theOther;
           }
     }
 
@@ -57,8 +57,8 @@ class TicTacToeLogic implements TicTacToeGridListener
         {
             for (var grid in sub)
             {
-                grid.status = GridChessStatus.none;
-                print(grid.status);
+                grid.type = GridChessType.none;
+                print(grid.type);
             }
         }
 
@@ -67,7 +67,7 @@ class TicTacToeLogic implements TicTacToeGridListener
 
     void _checkWin(TicTacToeGrid grid)
     {
-          if (grid.status == GridChessStatus.none)
+          if (grid.type == GridChessType.none)
           {
               return;
           }
@@ -84,13 +84,13 @@ class TicTacToeLogic implements TicTacToeGridListener
 
          if (result)
          {
-             _listener.onWon(grid.status == _playerGridStatus ? PlayerType.player : PlayerType.computer);
+             _listener.onWon(grid.type == _playerGridStatus ? PlayerType.player : PlayerType.computer);
          }
          else
          {
                List<TicTacToeGrid> grids = _grids.expand((element) => element).toList();
                TicTacToeGrid? none_grid = grids.firstWhereOrNull(
-                                                            (element) => element.status == GridChessStatus.none);
+                                                            (element) => element.type == GridChessType.none);
                if (none_grid == null)
                {
                   // 已全部下完, 平手
@@ -106,7 +106,7 @@ class TicTacToeLogic implements TicTacToeGridListener
             var y = grid.y + offset[1];
             var connected_count = 1;
 
-            while (x >= 0 && x < WIN_COUNT && y >= 0 && y < WIN_COUNT && _grids[x][y].status == grid.status)
+            while (x >= 0 && x < WIN_COUNT && y >= 0 && y < WIN_COUNT && _grids[x][y].type == grid.type)
             {
                 connected_count++;
                 x += offset[0];
@@ -120,7 +120,7 @@ class TicTacToeLogic implements TicTacToeGridListener
 
             x = grid.x - offset[0];
             y = grid.y - offset[1];
-            while (x >= 0 && x < WIN_COUNT && y >= 0 && y < WIN_COUNT && _grids[x][y].status == grid.status)
+            while (x >= 0 && x < WIN_COUNT && y >= 0 && y < WIN_COUNT && _grids[x][y].type == grid.type)
             {
                 connected_count++;
                 x -= offset[0];

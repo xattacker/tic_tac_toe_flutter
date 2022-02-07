@@ -5,7 +5,7 @@ import 'logic/TicTacToeGrid.dart';
 
 class GridWidget extends StatefulWidget implements TicTacToeGrid
 {
-  GridChessStatus _status = GridChessStatus.none;
+  GridChessType _status = GridChessType.none;
   late _GridState _state;
 
   @override
@@ -15,14 +15,13 @@ class GridWidget extends StatefulWidget implements TicTacToeGrid
   int y;
 
   @override
-  GridChessStatus get status => _status;
+  GridChessType get type => _status;
 
   @override
-  set status(GridChessStatus status) {
-    _status = status;
-    this.listener.onGridStatusUpdated(_status, this);
-
+  set type(GridChessType status) {
     _state.setState(() {
+        _status = status;
+        this.listener.onGridStatusUpdated(_status, this);
     });
   }
 
@@ -55,7 +54,7 @@ class _GridState extends State<GridWidget>
               },
               child:  CustomPaint(
                   size: Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.width),
-                  painter: ChessPainter(this.widget.status)
+                  painter: ChessPainter(this.widget.type)
               )
           );
     }

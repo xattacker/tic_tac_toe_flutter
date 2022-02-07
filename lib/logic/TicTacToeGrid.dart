@@ -1,5 +1,5 @@
 
-enum GridChessStatus
+enum GridChessType
 {
   none,
 
@@ -7,20 +7,20 @@ enum GridChessStatus
   fork
 }
 
-extension GridStatusExtension on GridChessStatus
+extension GridStatusExtension on GridChessType
 {
-  GridChessStatus get theOtherStatus
+  GridChessType get theOther
   {
       switch (this)
       {
-        case GridChessStatus.none:
+        case GridChessType.none:
           return this;
 
-        case GridChessStatus.circle:
-          return GridChessStatus.fork;
+        case GridChessType.circle:
+          return GridChessType.fork;
 
-        case GridChessStatus.fork:
-          return GridChessStatus.circle;
+        case GridChessType.fork:
+          return GridChessType.circle;
       }
   }
 }
@@ -30,7 +30,7 @@ class TicTacToeGrid
 {
   late int x;
   late int y;
-  GridChessStatus status = GridChessStatus.none;
+  GridChessType type = GridChessType.none;
 
   late TicTacToeGridListener listener;
 }
@@ -38,6 +38,6 @@ class TicTacToeGrid
 
 abstract class TicTacToeGridListener
 {
-    void onGridStatusUpdated(GridChessStatus status, TicTacToeGrid grid);
+    void onGridStatusUpdated(GridChessType type, TicTacToeGrid grid);
     void chess(TicTacToeGrid grid);
 }

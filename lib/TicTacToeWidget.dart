@@ -9,6 +9,7 @@ import 'GridWidget.dart';
 import 'logic/TicTacToeLogic.dart';
 import 'logic/TicTacToeLogicListener.dart';
 
+
 class TicTacToeWidget extends StatefulWidget
 {
     TicTacToeState createState() => TicTacToeState();
@@ -60,30 +61,25 @@ class TicTacToeState extends State<TicTacToeWidget> implements TicTacToeLogicLis
               SimpleDialogOption(
                   child: CustomPaint(
                       size: Size(selection_width, selection_width),
-                      painter: ChessPainter(GridChessStatus.circle)
+                      painter: ChessPainter(GridChessType.circle)
                   ),
                   onPressed: (){
                     Navigator.pop(context, true);
-                    initLogic(GridChessStatus.circle);
+                    _initLogic(GridChessType.circle);
                   }),
               SimpleDialogOption(
                   child: CustomPaint(
                       size: Size(selection_width, selection_width),
-                      painter: ChessPainter(GridChessStatus.fork)
+                      painter: ChessPainter(GridChessType.fork)
                   ),
                   onPressed: (){
                     Navigator.pop(context, true);
-                    initLogic(GridChessStatus.fork);
+                    _initLogic(GridChessType.fork);
                   })
-            ],
+            ]
           );
         },
       );
-  }
-
-  void initLogic(GridChessStatus selectedStatus)
-  {
-       _logic = new TicTacToeLogic(this, selectedStatus, this._grids);
   }
 
   @override
@@ -98,8 +94,11 @@ class TicTacToeState extends State<TicTacToeWidget> implements TicTacToeLogicLis
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                                             Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(_gradeRecorder.getString())),
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Text(_gradeRecorder.getString())),
+                                            Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Text(_gradeRecorder.getString())),
                                             Stack(
                                                 alignment: Alignment.center,
                                                 children:  [
@@ -117,7 +116,7 @@ class TicTacToeState extends State<TicTacToeWidget> implements TicTacToeLogicLis
                                                       children: _grids.expand((element) => element).toList()
                                                   )]
                                             )
-                                          ],
+                                          ]
                           )
             )
         )
@@ -148,18 +147,23 @@ class TicTacToeState extends State<TicTacToeWidget> implements TicTacToeLogicLis
           context: context,
           builder: (context) {
             return new AlertDialog(
-              title: Text("Game Over"),
-              content: Text(winner == PlayerType.player ? "You win" :  winner == PlayerType.computer ? "You lose" : "Draw"),
-              actions: <Widget>[
-                TextButton(
-                  child: Text("OK"),
-                  onPressed: () {
-                    Navigator.of(context).pop(); //关闭对话框
-                    _logic.restart();
-                  },
-                )
-              ],
+                                title: Text("Game Over"),
+                                content: Text(winner == PlayerType.player ? "You win" :  winner == PlayerType.computer ? "You lose" : "Draw"),
+                                actions: <Widget>[
+                                  TextButton(
+                                    child: Text("OK"),
+                                    onPressed: () {
+                                      Navigator.of(context).pop(); //关闭对话框
+                                      _logic.restart();
+                                    }
+                                  )
+                                ]
             );
           });
+   }
+
+  void _initLogic(GridChessType selectedType)
+  {
+      _logic = new TicTacToeLogic(this, selectedType, this._grids);
   }
 }

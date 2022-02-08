@@ -1,6 +1,7 @@
 
 import 'package:tic_tac_toe_flutter/GridWidget.dart';
 import 'package:collection/collection.dart';
+import 'dart:math';
 
 import 'ConnectedDirection.dart';
 import 'TicTacToeGrid.dart';
@@ -174,69 +175,85 @@ class TicTacToeLogic implements TicTacToeGridListener
          if (grid != null)
          {
              var score = _calStepScore(grid, grids);
-             if (score != 0)
+             if (score != 0 || avails.isEmpty)
              {
                 score +=  score > 0 ? avails.length : -avails.length;
                 return Pair(grid, score);
              }
          }
 
-          if (avails.isEmpty && grid != null)
-          {
-              var score = _calStepScore(grid, grids);
-              return Pair(grid, score);
-          }
-          else
-          {
-              List<Pair<TicTacToeGrid, int>> move_steps = [];
-              for (var grid in avails)
-              {
-                  var clone_grids = _cloneGrids(grids);
-                  var found = findGrid(grid, clone_grids);
-                  if (found != null)
-                  {
-                      found.type = type;
-                      move_steps.add(_runAIBestMoveAlgorithm2(found, type.theOther, clone_grids));
-                  }
-              }
 
-              if (avails.length == 8)
-              {
-                print(move_steps.length);
-              }
+            List<Pair<TicTacToeGrid, int>> move_steps = [];
+            for (var grid in avails)
+            {
+                var clone_grids = _cloneGrids(grids);
+                var found = findGrid(grid, clone_grids);
+                if (found != null)
+                {
+                    found.type = type;
+                    move_steps.add(_runAIBestMoveAlgorithm2(found, type.theOther, clone_grids));
+                }
+            }
 
-              var bestScore = 0;
-              TicTacToeGrid bestStep = avails[0];
 
-              if (grid?.type == _playerSelectedType)
-              {
-                  // 找分數最低的
-                  bestScore = 9999;
-                  for (var step in move_steps)
-                  {
-                      if (step.right < bestScore)
-                      {
-                         bestScore = step.right;
-                         bestStep = step.left;
-                      }
-                  }
-              }
-              else
-              {
-                  // 找分數最高的
-                  bestScore = -9999;
-                  for (var step in move_steps)
-                  {
-                      if (step.right > bestScore)
-                      {
-                         bestScore = step.right;
-                         bestStep = step.left;
-                      }
-                  }
-              }
+            // if (type == _playerSelectedType)
+            // {
+            //     // 找分數最低的
+            //     bestScore = 9999;
+            //     for (var step in move_steps)
+            //     {
+            //         if (step.right < bestScore)
+            //         {
+            //            bestScore = step.right;
+            //            bestStep = step.left;
+            //         }
+            //     }
+            // }
+            // else
+            // {
+            //     // 找分數最高的
+            //     bestScore = -9999;
+            //     for (var step in move_steps)
+            //     {
+            //         if (step.right > bestScore)
+            //         {
+            //            bestScore = step.right;
+            //            bestStep = step.left;
+            //         }
+            //     }
+            // }
 
-              return Pair(bestStep, bestScore);
-          }
+            // 找分數最高的
+            move_steps.sort((Pair<TicTacToeGrid, int> a, Pair<TicTacToeGrid, int> b)=> a.right > b.right ? -1 : 1);
+            TicTacToeGrid bestStep = move_steps[0].left;
+            int bestScore = move_steps[0].right;
+
+            List<TicTacToeGrid> best_score_list = [];
+            for (var step in move_steps)
+            {
+                if (step.right == bestScore)
+                {
+                  best_score_list.add(step.left);
+                }
+            }
+
+            if (best_score_list.length >= 2)
+            {
+                 Random random = new Random();
+
+                 var center = best_score_list.firstWhereOrNull((element) => element.index == pow(GRID_DIMENSION - 1, 2));
+                 if (center != null && random.nextBool())
+                 {
+                     bestStep = center;
+                 }
+                 else
+                 {
+                     // 超過1個以上最佳步時, 隨機取樣
+                     bestStep = best_score_list[random.nextInt(best_score_list.length)];
+                 }
+            }
+
+            return Pair(bestStep, bestScore);
     }
 
     int _calStepScore(TicTacToeGrid grid, List<List<TicTacToeGrid>> grids)

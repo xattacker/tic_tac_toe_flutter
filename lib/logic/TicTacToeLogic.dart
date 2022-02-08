@@ -177,8 +177,8 @@ class TicTacToeLogic implements TicTacToeGridListener
              var score = _calStepScore(grid, grids);
              if (score != 0 || avails.isEmpty)
              {
-                score +=  score > 0 ? avails.length : -avails.length;
-                return Pair(grid, score);
+                 score +=  score > 0 ? avails.length : -avails.length;
+                 return Pair(grid, score);
              }
          }
 

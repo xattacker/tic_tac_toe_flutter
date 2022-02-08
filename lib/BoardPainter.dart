@@ -7,10 +7,10 @@ class BoardPainter extends CustomPainter
   void paint(Canvas canvas, Size size)
   {
         Paint paint = new Paint();
-        paint.color = Colors.grey;
+        paint.color = Color(0xFF707070); // dark gray
         paint.strokeCap = StrokeCap.square;
         paint.style = PaintingStyle.fill;
-        paint.strokeWidth = size.width/25;
+        paint.strokeWidth = size.width/30;
 
         var width = size.width/3;
         var padding = size.width/20;

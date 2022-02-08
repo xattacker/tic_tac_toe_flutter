@@ -161,7 +161,7 @@ class TicTacToeLogic implements TicTacToeGridListener
                 if (grid.index == bestStep.left.index)
                 {
                     chess(grid);
-                    break;
+                    return;
                 }
              }
          }
@@ -169,19 +169,21 @@ class TicTacToeLogic implements TicTacToeGridListener
 
     Pair<TicTacToeGrid, int> _runAIBestMoveAlgorithm2(TicTacToeGrid? grid, GridChessType type, List<List<TicTacToeGrid>> grids)
     {
+        var avails = _availGrids(grids);
+
          if (grid != null)
          {
-             var score = _calMoveScore(grid, grids);
+             var score = _calStepScore(grid, grids);
              if (score != 0)
              {
+                score +=  score > 0 ? avails.length : -avails.length;
                 return Pair(grid, score);
              }
          }
 
-          var avails = _availGrids(grids);
           if (avails.isEmpty && grid != null)
           {
-              var score = _calMoveScore(grid, grids);
+              var score = _calStepScore(grid, grids);
               return Pair(grid, score);
           }
           else
@@ -198,14 +200,38 @@ class TicTacToeLogic implements TicTacToeGridListener
                   }
               }
 
-              var bestScore = -9999;
-              TicTacToeGrid bestStep = avails[0];
-              for (var step in move_steps)
+              if (avails.length == 8)
               {
-                  if (step.right > bestScore)
+                print(move_steps.length);
+              }
+
+              var bestScore = 0;
+              TicTacToeGrid bestStep = avails[0];
+
+              if (grid?.type == _playerSelectedType)
+              {
+                  // 找分數最低的
+                  bestScore = 9999;
+                  for (var step in move_steps)
                   {
-                      bestScore = step.right;
-                      bestStep = step.left;
+                      if (step.right < bestScore)
+                      {
+                         bestScore = step.right;
+                         bestStep = step.left;
+                      }
+                  }
+              }
+              else
+              {
+                  // 找分數最高的
+                  bestScore = -9999;
+                  for (var step in move_steps)
+                  {
+                      if (step.right > bestScore)
+                      {
+                         bestScore = step.right;
+                         bestStep = step.left;
+                      }
                   }
               }
 
@@ -213,7 +239,7 @@ class TicTacToeLogic implements TicTacToeGridListener
           }
     }
 
-    int _calMoveScore(TicTacToeGrid grid, List<List<TicTacToeGrid>> grids)
+    int _calStepScore(TicTacToeGrid grid, List<List<TicTacToeGrid>> grids)
     {
         var result = _checkWinV2(grid, grids);
         if (result)

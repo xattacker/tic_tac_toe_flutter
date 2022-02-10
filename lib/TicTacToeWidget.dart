@@ -4,6 +4,7 @@ import 'package:tic_tac_toe_flutter/GridPainter.dart';
 import 'package:tic_tac_toe_flutter/logic/TicTacToeGrid.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
+import 'AppLocalizations.dart';
 import 'BoardPainter.dart';
 import 'GradeRecorder.dart';
 import 'GridWidget.dart';
@@ -56,7 +57,7 @@ class TicTacToeState extends State<TicTacToeWidget> implements TicTacToeLogicLis
         barrierDismissible: false, // disable dismissed when clicking  dialog outside
         builder: (context) {
           return SimpleDialog(
-            title: Text("Chess Type Selection"),
+            title: Text(AppLocalizations.instance(context)?.getString('chess_type_selection') ?? "", textAlign: TextAlign.center,),
             contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
             //在 children 中可以加入選項
             children: <Widget>[
@@ -88,7 +89,7 @@ class TicTacToeState extends State<TicTacToeWidget> implements TicTacToeLogicLis
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: new AppBar(
-          title: Text("TicTacToe"),
+          title: Text(AppLocalizations.instance(context)?.getString('app_name') ?? ""),
         ),
         body: SafeArea(
             child:

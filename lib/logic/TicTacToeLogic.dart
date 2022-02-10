@@ -1,4 +1,5 @@
 
+import 'package:flutter/cupertino.dart';
 import 'package:tic_tac_toe_flutter/GridWidget.dart';
 import 'package:collection/collection.dart';
 import 'dart:math';
@@ -154,13 +155,14 @@ class TicTacToeLogic implements TicTacToeGridListener
 
     void _runAIBestMoveAlgorithm()
     {
-         var bestStep = _runAIBestMoveAlgorithm2(null, _playerSelectedType.theOther, _grids);
+         var bestStep = _runAIBestMoveAlgorithm2(null, _playerSelectedType.theOther, _grids, 0);
          for (var sub in _grids)
          {
              for (var grid in sub)
              {
                 if (grid.index == bestStep.left.index)
                 {
+                    debugPrint("chess score: ${bestStep.right}");
                     chess(grid);
                     return;
                 }
@@ -168,7 +170,7 @@ class TicTacToeLogic implements TicTacToeGridListener
          }
     }
 
-    Pair<TicTacToeGrid, int> _runAIBestMoveAlgorithm2(TicTacToeGrid? grid, GridChessType type, List<List<TicTacToeGrid>> grids)
+    Pair<TicTacToeGrid, int> _runAIBestMoveAlgorithm2(TicTacToeGrid? grid, GridChessType type, List<List<TicTacToeGrid>> grids, int level)
     {
         var avails = _availGrids(grids);
 
@@ -191,7 +193,7 @@ class TicTacToeLogic implements TicTacToeGridListener
                 if (found != null)
                 {
                     found.type = type;
-                    move_steps.add(_runAIBestMoveAlgorithm2(found, type.theOther, clone_grids));
+                    move_steps.add(_runAIBestMoveAlgorithm2(found, type.theOther, clone_grids, level+1));
                 }
             }
 
@@ -228,21 +230,29 @@ class TicTacToeLogic implements TicTacToeGridListener
             TicTacToeGrid bestStep = move_steps[0].left;
             int bestScore = move_steps[0].right;
 
+            if (level == 0 && bestScore == 0)
+            {
+                // 如果當下最高分是 0, 那就採用最低分的以阻止對方獲勝
+                bestStep = move_steps.last.left;
+                bestScore = move_steps.last.right;
+                debugPrint("choice worst step: $bestScore");
+            }
+
             List<TicTacToeGrid> best_score_list = [];
             for (var step in move_steps)
             {
                 if (step.right == bestScore)
                 {
-                  best_score_list.add(step.left);
+                    best_score_list.add(step.left);
                 }
             }
 
-            if (best_score_list.length >= 2)
+            if (level == 0 && best_score_list.length >= 2)
             {
                  Random random = new Random();
 
                  var center = best_score_list.firstWhereOrNull((element) => element.index == pow(GRID_DIMENSION - 1, 2));
-                 if (center != null && random.nextBool())
+                 if (center != null && random.nextInt(3) == 0)
                  {
                      bestStep = center;
                  }

@@ -34,7 +34,6 @@ class MyApp extends StatelessWidget {
       // Returns a locale which will be used by the app
       localeResolutionCallback: (locale, supportedLocales) {
         // Check if the current device locale is supported
-        // 檢查手機是否支援這個語言
         for (var supported in supportedLocales) {
           if (supported.languageCode == locale?.languageCode &&
               supported.countryCode == locale?.countryCode) {

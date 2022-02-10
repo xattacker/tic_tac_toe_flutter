@@ -230,12 +230,12 @@ class TicTacToeLogic implements TicTacToeGridListener
             TicTacToeGrid bestStep = move_steps[0].left;
             int bestScore = move_steps[0].right;
 
-            if (level == 0 && bestScore == 0)
+            if (move_steps.length > 1 && bestScore == 0 && move_steps.last.right < 0)
             {
                 // 如果當下最高分是 0, 那就採用最低分的以阻止對方獲勝
                 bestStep = move_steps.last.left;
                 bestScore = move_steps.last.right;
-                debugPrint("choice worst step: $bestScore");
+                //debugPrint("choice worst step: $bestScore");
             }
 
             List<TicTacToeGrid> best_score_list = [];
@@ -252,7 +252,7 @@ class TicTacToeLogic implements TicTacToeGridListener
                  Random random = new Random();
 
                  var center = best_score_list.firstWhereOrNull((element) => element.index == pow(GRID_DIMENSION - 1, 2));
-                 if (center != null && random.nextInt(3) == 0)
+                 if (center != null)// && random.nextInt(3) == 0)
                  {
                      bestStep = center;
                  }

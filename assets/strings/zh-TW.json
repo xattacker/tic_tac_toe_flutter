@@ -1,4 +1,9 @@
 {
   "app_name": "井字遊戲",
-  "chess_type_selection": "選擇棋子"
+  "chess_type_selection": "選擇棋子",
+  "game_over": "遊戲結束",
+  "you_win": "你贏了",
+  "you_lose": "你輸了",
+  "tie": "平手",
+  "ok": "確定"
 }

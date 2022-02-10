@@ -84,3 +84,20 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
 }
+
+
+extension StatelessWidgetExtension on StatelessWidget
+{
+  String getString(String key, BuildContext context)
+  {
+      return AppLocalizations.instance(context)?.getString(key) ?? key;
+  }
+}
+
+extension StateExtension on State
+{
+  String getString(String key)
+  {
+     return AppLocalizations.instance(context)?.getString(key) ?? key;
+  }
+}

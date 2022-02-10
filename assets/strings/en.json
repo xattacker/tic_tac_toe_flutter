@@ -1,4 +1,9 @@
 {
   "app_name": "Tic Tac Toe",
-  "chess_type_selection": "Chess Type Selection"
+  "chess_type_selection": "Chess Type Selection",
+  "game_over": "Game Over",
+  "you_win": "You Win",
+  "you_lose": "You Lose",
+  "tie": "Tie",
+  "ok": "OK"
 }

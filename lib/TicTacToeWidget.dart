@@ -57,7 +57,7 @@ class TicTacToeState extends State<TicTacToeWidget> implements TicTacToeLogicLis
         barrierDismissible: false, // disable dismissed when clicking  dialog outside
         builder: (context) {
           return SimpleDialog(
-            title: Text(AppLocalizations.instance(context)?.getString('chess_type_selection') ?? "", textAlign: TextAlign.center,),
+            title: Text(getString('chess_type_selection') , textAlign: TextAlign.center,),
             contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
             //在 children 中可以加入選項
             children: <Widget>[
@@ -89,7 +89,7 @@ class TicTacToeState extends State<TicTacToeWidget> implements TicTacToeLogicLis
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: new AppBar(
-          title: Text(AppLocalizations.instance(context)?.getString('app_name') ?? ""),
+          title: Text(getString('app_name')),
         ),
         body: SafeArea(
             child:
@@ -195,18 +195,22 @@ class TicTacToeState extends State<TicTacToeWidget> implements TicTacToeLogicLis
           barrierDismissible: false, // disable dismissed when clicking  dialog outside
           builder: (context) {
             return new AlertDialog(
-                                title: Text("Game Over"),
-                                content: Text(winner == PlayerType.player ? "You win" :  winner == PlayerType.computer ? "You lose" : "Tie"),
-                                actions: <Widget>[
-                                  TextButton(
-                                    child: Text("OK"),
-                                    onPressed: () {
-                                      Navigator.of(context).pop(); //关闭对话框
-                                      _logic?.restart();
-                                    }
-                                  )
-                                ]
-            );
+                                title: Text(getString("game_over")),
+                                content: Text(winner == PlayerType.player ? getString("you_win") :  winner == PlayerType.computer ? getString("you_lose") : getString("tie")),
+                                actions: [
+                                      Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                      TextButton(
+                                        child: Text(getString("ok"), textAlign: TextAlign.center,),
+                                        onPressed: () {
+                                          Navigator.of(context).pop(); //关闭对话框
+                                          _logic?.restart();
+                                        }
+                                      )
+                                    ])
+                                    ]
+                );
           });
    }
 

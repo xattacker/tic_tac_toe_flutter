@@ -157,7 +157,7 @@ class TicTacToeLogic implements TicTacToeGridListener
     void _runAIBestMoveAlgorithm()
     {
          var clone_grids = _cloneGrids(_grids);
-         var bestStep = _runAIBestMoveAlgorithm2(null, _playerSelectedType.theOther, clone_grids, 0);
+         var bestStep = _miniMax(null, _playerSelectedType.theOther, clone_grids, 0);
 
          var found = _findGrid(bestStep.left, _grids);
          if (found != null)
@@ -167,7 +167,7 @@ class TicTacToeLogic implements TicTacToeGridListener
          }
     }
 
-    Pair<TicTacToeGrid, int> _runAIBestMoveAlgorithm2(TicTacToeGrid? grid, GridChessType type, List<List<TicTacToeGrid>> grids, int level)
+    Pair<TicTacToeGrid, int> _miniMax(TicTacToeGrid? grid, GridChessType type, List<List<TicTacToeGrid>> grids, int level)
     {
         //  AI Algorithm reference:
         //  https://www.freecodecamp.org/news/how-to-make-your-tic-tac-toe-game-unbeatable-by-using-the-minimax-algorithm-9d690bad4b37/
@@ -195,7 +195,7 @@ class TicTacToeLogic implements TicTacToeGridListener
               {
                   found.type = type;
 
-                  var got = _runAIBestMoveAlgorithm2(found, type.theOther, clone_grids, level+1);
+                  var got = _miniMax(found, type.theOther, clone_grids, level+1);
                   move_steps.add(Pair<TicTacToeGrid, int>(found, got.right));
 
                   found.type = GridChessType.none;

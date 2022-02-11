@@ -175,7 +175,12 @@ class TicTacToeLogic implements TicTacToeGridListener
 
          if (grid != null)
          {
-             var score = _calStepScore(grid, grids);
+             var score = 0;
+             if (_checkWinV2(grid, grids))
+             {
+                 score = grid.type == _playerSelectedType ? -10 : 10;
+             }
+
              if (score != 0)
              {
                   return Pair(grid, score);
@@ -233,17 +238,6 @@ class TicTacToeLogic implements TicTacToeGridListener
          }
 
          return Pair(bestStep, bestScore);
-    }
-
-    int _calStepScore(TicTacToeGrid grid, List<List<TicTacToeGrid>> grids)
-    {
-        var result = _checkWinV2(grid, grids);
-        if (result)
-        {
-            return grid.type == _playerSelectedType ? -10 : 10;
-        }
-
-        return 0;
     }
 
     List<List<TicTacToeGrid>> _cloneGrids(List<List<TicTacToeGrid>> grids)

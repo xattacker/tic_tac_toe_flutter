@@ -1,7 +1,7 @@
 # TicTacToe_Flutter
 a Flutter TicTacToe game project
 
-AI algorithm reference:<br>
+AI Algorithm reference:<br>
 https://www.freecodecamp.org/news/how-to-make-your-tic-tac-toe-game-unbeatable-by-using-the-minimax-algorithm-9d690bad4b37/
 
 screen cut:<br>

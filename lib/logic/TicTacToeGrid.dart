@@ -45,6 +45,7 @@ extension TicTacToeGridExtension on TicTacToeGrid
         grid.x = this.x;
         grid.y = this.y;
         grid.type = this.type;
+        grid.listener = this.listener;
 
         return grid;
     }

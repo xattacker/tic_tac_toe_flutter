@@ -44,6 +44,7 @@ class TicTacToeLogic implements TicTacToeGridListener
     @override
     void onGridStatusUpdated(GridChessType status, TicTacToeGrid grid)
     {
+        //debugPrint("onGridStatusUpdated ${grid.x}, ${grid.y} , ${grid.type}");
         _checkWin(grid);
     }
 
@@ -155,18 +156,14 @@ class TicTacToeLogic implements TicTacToeGridListener
 
     void _runAIBestMoveAlgorithm()
     {
-         var bestStep = _runAIBestMoveAlgorithm2(null, _playerSelectedType.theOther, _grids, 0);
-         for (var sub in _grids)
+         var clone_grids = _cloneGrids(_grids);
+         var bestStep = _runAIBestMoveAlgorithm2(null, _playerSelectedType.theOther, clone_grids, 0);
+
+         var found = _findGrid(bestStep.left, _grids);
+         if (found != null)
          {
-             for (var grid in sub)
-             {
-                if (grid.index == bestStep.left.index)
-                {
-                    debugPrint("chess score: ${bestStep.right}");
-                    chess(grid);
-                    return;
-                }
-             }
+              debugPrint("chess score: ${bestStep.right}, (${bestStep.left.x}, ${bestStep.left.y})");
+              chess(found);
          }
     }
 
@@ -177,93 +174,67 @@ class TicTacToeLogic implements TicTacToeGridListener
          if (grid != null)
          {
              var score = _calStepScore(grid, grids);
-             if (score != 0 || avails.isEmpty)
+             if (score != 0)
              {
-                 score +=  score > 0 ? avails.length : -avails.length;
-                 return Pair(grid, score);
+                  return Pair(grid, score);
+             }
+             else if (avails.isEmpty)
+             {
+                  return Pair(grid, 0);
              }
          }
 
+          var clone_grids = _cloneGrids(grids);
+          List<Pair<TicTacToeGrid, int>> move_steps = [];
+          for (var grid in avails)
+          {
+              var found = _findGrid(grid, clone_grids);
+              if (found != null)
+              {
+                  found.type = type;
+                  move_steps.add(_runAIBestMoveAlgorithm2(found, type.theOther, clone_grids, level+1));
+                  found.type = GridChessType.none;
+              }
+          }
 
-            List<Pair<TicTacToeGrid, int>> move_steps = [];
-            for (var grid in avails)
-            {
-                var clone_grids = _cloneGrids(grids);
-                var found = findGrid(grid, clone_grids);
-                if (found != null)
-                {
-                    found.type = type;
-                    move_steps.add(_runAIBestMoveAlgorithm2(found, type.theOther, clone_grids, level+1));
-                }
-            }
 
+        //move_steps.sort((Pair<TicTacToeGrid, int> a, Pair<TicTacToeGrid, int> b) => a.left.index < b.left.index ? -1 : 1);
+        //   if (level == 0)
+        //     {
+        //       print(move_steps);
+        //     }
 
-            // if (type == _playerSelectedType)
-            // {
-            //     // 找分數最低的
-            //     bestScore = 9999;
-            //     for (var step in move_steps)
-            //     {
-            //         if (step.right < bestScore)
-            //         {
-            //            bestScore = step.right;
-            //            bestStep = step.left;
-            //         }
-            //     }
-            // }
-            // else
-            // {
-            //     // 找分數最高的
-            //     bestScore = -9999;
-            //     for (var step in move_steps)
-            //     {
-            //         if (step.right > bestScore)
-            //         {
-            //            bestScore = step.right;
-            //            bestStep = step.left;
-            //         }
-            //     }
-            // }
+         TicTacToeGrid bestStep = move_steps[0].left;
+         int bestScore = move_steps[0].right;
 
-            // 找分數最高的
-            move_steps.sort((Pair<TicTacToeGrid, int> a, Pair<TicTacToeGrid, int> b)=> a.right > b.right ? -1 : 1);
-            TicTacToeGrid bestStep = move_steps[0].left;
-            int bestScore = move_steps[0].right;
+         if (type == _playerSelectedType)
+         {
+              // find the lowest score
+              bestScore = 9999;
+              for (var step in move_steps)
+              {
+                  if (step.right < bestScore)
+                  {
+                      bestScore = step.right;
+                      bestStep = step.left;
+                  }
+              }
+        }
+        else
+         {
+              // find the highest score
+              bestScore = -9999;
+              for (var step in move_steps)
+              {
+                  if (step.right > bestScore)
+                  {
+                      bestScore = step.right;
+                      bestStep = step.left;
+                  }
+              }
+         }
 
-            if (move_steps.length > 1 && bestScore == 0 && move_steps.last.right < 0)
-            {
-                // 如果當下最高分是 0, 那就採用最低分的以阻止對方獲勝
-                bestStep = move_steps.last.left;
-                bestScore = move_steps.last.right;
-                //debugPrint("choice worst step: $bestScore");
-            }
-
-            List<TicTacToeGrid> best_score_list = [];
-            for (var step in move_steps)
-            {
-                if (step.right == bestScore)
-                {
-                    best_score_list.add(step.left);
-                }
-            }
-
-            if (level == 0 && best_score_list.length >= 2)
-            {
-                 Random random = new Random();
-
-                 var center = best_score_list.firstWhereOrNull((element) => element.index == pow(GRID_DIMENSION - 1, 2));
-                 if (center != null)// && random.nextInt(3) == 0)
-                 {
-                     bestStep = center;
-                 }
-                 else
-                 {
-                     // 超過1個以上最佳步時, 隨機取樣
-                     bestStep = best_score_list[random.nextInt(best_score_list.length)];
-                 }
-            }
-
-            return Pair(bestStep, bestScore);
+         return Pair(bestStep, bestScore);
     }
 
     int _calStepScore(TicTacToeGrid grid, List<List<TicTacToeGrid>> grids)
@@ -285,9 +256,7 @@ class TicTacToeLogic implements TicTacToeGridListener
              List<TicTacToeGrid> sub_array = [];
              for (var grid in sub)
              {
-                 var temp = grid.clone();
-                 temp.listener = this;
-                 sub_array.add(temp);
+                 sub_array.add(grid.clone());
              }
 
              clone.add(sub_array);
@@ -299,10 +268,11 @@ class TicTacToeLogic implements TicTacToeGridListener
     List<TicTacToeGrid> _availGrids(List<List<TicTacToeGrid>> grids)
     {
         List<TicTacToeGrid> list = grids.expand((element) => element).toList();
+        list.sort((TicTacToeGrid a, TicTacToeGrid b) => a.index < b.index ? -1 : 1);
         return list.where((element) => element.type == GridChessType.none).toList();
     }
 
-    TicTacToeGrid? findGrid(TicTacToeGrid grid, List<List<TicTacToeGrid>> grids)
+    TicTacToeGrid? _findGrid(TicTacToeGrid grid, List<List<TicTacToeGrid>> grids)
     {
         for (var sub in grids)
         {
@@ -310,7 +280,7 @@ class TicTacToeLogic implements TicTacToeGridListener
             {
                   if (temp.index == grid.index)
                   {
-                    return temp;
+                      return temp;
                   }
             }
         }

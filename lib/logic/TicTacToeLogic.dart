@@ -156,8 +156,7 @@ class TicTacToeLogic implements TicTacToeGridListener
 
     void _runAIBestMoveAlgorithm()
     {
-         var clone_grids = _cloneGrids(_grids);
-         var bestStep = _miniMax(null, _playerSelectedType.theOther, clone_grids, 0);
+         var bestStep = _miniMax(null, _playerSelectedType.theOther, _grids, 0);
 
          var found = _findGrid(bestStep.left, _grids);
          if (found != null)

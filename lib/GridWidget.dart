@@ -52,7 +52,7 @@ class _GridState extends State<GridWidget>
                         this.widget.chess();
                     });
               },
-              child:  CustomPaint(
+              child: CustomPaint(
                   size: Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.width),
                   painter: ChessPainter(this.widget.type)
               )

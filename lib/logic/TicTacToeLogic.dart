@@ -168,8 +168,9 @@ class TicTacToeLogic implements TicTacToeGridListener
 
     Pair<TicTacToeGrid, int> _miniMax(TicTacToeGrid? grid, GridChessType type, List<List<TicTacToeGrid>> grids, int level)
     {
-        //  AI Algorithm reference:
-        //  https://www.freecodecamp.org/news/how-to-make-your-tic-tac-toe-game-unbeatable-by-using-the-minimax-algorithm-9d690bad4b37/
+        // AI Algorithm reference:
+        // https://en.wikipedia.org/wiki/Minimax
+        // https://www.freecodecamp.org/news/how-to-make-your-tic-tac-toe-game-unbeatable-by-using-the-minimax-algorithm-9d690bad4b37/
         var avails = _availGrids(grids);
 
          if (grid != null)

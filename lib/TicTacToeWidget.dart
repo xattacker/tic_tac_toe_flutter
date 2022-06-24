@@ -57,7 +57,7 @@ class TicTacToeState extends State<TicTacToeWidget> implements TicTacToeLogicLis
         barrierDismissible: false, // disable dismissed when clicking  dialog outside
         builder: (context) {
           return SimpleDialog(
-            title: Text(getString('chess_type_selection') , textAlign: TextAlign.center,),
+            title: Text(getString('chess_type_selection'), textAlign: TextAlign.center,),
             contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
             //在 children 中可以加入選項
             children: <Widget>[
